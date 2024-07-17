@@ -17,7 +17,7 @@ public class JwtUtil {
 
   private static final ErrorCodeMap errorCodeMap = new ErrorCodeMap();
 
-  public static String generateToken(String username, Long userId, String status) {
+  public static String generateToken(String username, Long userId, String status, String roleId) {
     int expiration = 86400;
     Date expirationDate = new Date(System.currentTimeMillis() + expiration * 1000);
     return Jwts.builder().
@@ -26,6 +26,7 @@ public class JwtUtil {
             expiration(expirationDate).
             claim("userId",userId).
             claim("status",status).
+            claim("roleId",roleId).
             signWith(secretKey).
             compact();
 

@@ -8,10 +8,12 @@ import com.potato.common.exception.TokenErrorException;
 import com.potato.common.exception.TokenExpireException;
 import com.potato.controller.dto.UserBaseInfo;
 import com.potato.util.JwtUtil;
+import com.potato.util.casbin.EnforceFactory;
 import com.tencentcloudapi.billing.v20180709.models.JsonObject;
 import io.jsonwebtoken.Claims;
 import io.lettuce.core.dynamic.annotation.Command;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -27,6 +29,10 @@ import java.io.PrintWriter;
 public class PermissionInterceptor implements HandlerInterceptor {
   // 先不写拦截器了 直接测试接口
   // 还是需要拦截器 写吧
+
+  @Autowired
+  private EnforceFactory enforceFactory;
+
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
     throws IOException {
@@ -50,6 +56,9 @@ public class PermissionInterceptor implements HandlerInterceptor {
       Long userId = (Long) claim.get("userId");
       String userName = claim.getSubject();
       String status = claim.get("status").toString();
+      String roleId = (String) claim.get("roleId");
+      String uri = request.getRequestURI();
+      String method = request.getMethod();
 
       if (status.equals("0")) {
 
@@ -58,15 +67,24 @@ public class PermissionInterceptor implements HandlerInterceptor {
 
       }
 
-      //jwt校验合格后,其存储的信息会加入请求头部，不合格的请求头部用户为空
-      Context.setCurrentId(userId);
-      UserBaseInfo userInfo = new UserBaseInfo();
-      userInfo.setId(userId);
-      userInfo.setUsername(userName);
-      userInfo.setStatus(status);
-      Context.setCurrentUser(userInfo);
+      // 校验用户是否有权访问接口
+      if (enforceFactory.getEnforcer().enforce(roleId, uri, method)) {
 
-      return true;
+        //jwt校验合格后,其存储的信息会加入请求头部，不合格的请求头部用户为空
+        Context.setCurrentId(userId);
+        UserBaseInfo userInfo = new UserBaseInfo();
+        userInfo.setId(userId);
+        userInfo.setUsername(userName);
+        userInfo.setStatus(status);
+        Context.setCurrentUser(userInfo);
+
+        return true;
+      }
+
+      sendErrorResponse(response,"用户无权限访问该接口");
+      return false;
+
+
     } catch (TokenErrorException e) {
 
       sendErrorResponse(response,"令牌错误");

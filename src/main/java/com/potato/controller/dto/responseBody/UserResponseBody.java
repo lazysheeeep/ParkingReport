@@ -24,5 +24,5 @@ public class UserResponseBody {
   private String avatar;
 
   //用户角色 普通用户 1|审核员 2|管理员 3
-  private Integer roleId;
+  private String roleId;
 }

@@ -60,7 +60,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
       user.setPhone(phone);
       user.setAvatar("default");
       user.setPassword(password);
-      user.setRoleId(1);
+      user.setRoleId("001");
       user.setStatus("1");
       this.save(user);
     } else {

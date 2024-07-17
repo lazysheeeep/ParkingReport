@@ -30,7 +30,7 @@ public class User {
   private String avatar;
 
   //用户角色 普通用户 1|审核员 2|管理员 3
-  private Integer roleId;
+  private String roleId;
 
   //用户状态 1 正常使用|0 禁止使用
   private String status;

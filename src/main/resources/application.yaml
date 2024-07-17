@@ -34,6 +34,9 @@ sms:
   secretId: AKIDwhEXdXDgz9XifOwGSSEnDQOAj5D9wgda
   secretKey: ysfGhw2RlvupcDi0a1GJBrMe1OgnjXCj
 
+casbin:
+  model-path: C:\Users\lenovo\Desktop\code\Java\demo\src\main\java\com\potato\config\authz_model.conf
+
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

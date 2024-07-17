@@ -59,7 +59,7 @@ public class UserController {
     try {
       //这里是Service层的登录函数
       User user = userService.login(username, password);
-      String token = JwtUtil.generateToken(username, user.getId(),user.getStatus());
+      String token = JwtUtil.generateToken(username, user.getId(),user.getStatus(), user.getRoleId());
       response.addHeader("Authorization", token);
       UserResponseBody responseBody = new UserResponseBody();
       responseBody.setUserId(user.getId());
