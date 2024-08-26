@@ -11,4 +11,6 @@ public interface ImpeachService {
   public List<ImpeachInfo> getAllImpeach();
 
   public ImpeachInfo getById(Long id);
+
+  public String passImpeach(Long id);
 }

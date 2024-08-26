@@ -33,4 +33,7 @@ public class ImpeachInfo {
   private String plateNumber;
 
   private String location;
+
+  @JsonProperty("process_id")
+  private Integer processId;
 }

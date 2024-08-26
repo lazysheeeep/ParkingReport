@@ -67,4 +67,13 @@ public class ImpeachServiceImpl extends ServiceImpl<ImpeachInfoMapper,ImpeachInf
 
   }
 
+  public String passImpeach(Long id) {
+    LambdaQueryWrapper<ImpeachInfo> queryWrapper = new LambdaQueryWrapper<>();
+    queryWrapper.eq(ImpeachInfo::getId,id);
+    ImpeachInfo info = this.getOne(queryWrapper);
+    info.setProcessId(2);
+    this.save(info);
+    return "通过举报成功！";
+  }
+
 }

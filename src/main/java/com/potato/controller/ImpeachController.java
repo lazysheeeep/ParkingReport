@@ -48,4 +48,10 @@ public class ImpeachController {
     ImpeachInfo info = impeachService.getById(id);
     return R.success(info);
   }
+
+  @PostMapping("/pass")
+  public R<String> passImpeach(@RequestParam("id") Long id) {
+    String result = impeachService.passImpeach(id);
+    return R.success(result);
+  }
 }
