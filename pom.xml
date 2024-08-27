@@ -108,6 +108,18 @@
             <version>2.0.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv</artifactId>
+            <version>1.5.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>opencv</artifactId>
+            <version>4.5.5-1.5.7</version> <!-- 确保版本与 javacv 一致 -->
+        </dependency>
+
 
 
     </dependencies>
