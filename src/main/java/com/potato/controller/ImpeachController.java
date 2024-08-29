@@ -4,11 +4,14 @@ import com.potato.common.R;
 import com.potato.common.exception.CustomException;
 import com.potato.entity.ImpeachInfo;
 import com.potato.service.ImpeachService;
+import com.potato.service.RecognizeService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -21,10 +24,26 @@ public class ImpeachController {
   @Autowired
   private ImpeachService impeachService;
 
+  @Autowired
+  private RecognizeService recognizeService;
+
   @PostMapping("/create")
   public R<String> create(@RequestBody ImpeachInfo info) {
     try {
       String result = impeachService.createImpeach(info);
+      return R.success(result);
+    } catch (CustomException e) {
+      return R.error(e.getMessage());
+    }
+  }
+
+  @PostMapping("/getPlate")
+  public R<String> getPlate(@RequestParam("image")MultipartFile image) {
+    if (image.isEmpty()) {
+      return R.error("图片为空");
+    }
+    try {
+      String result = recognizeService.recognizePlate(image);
       return R.success(result);
     } catch (CustomException e) {
       return R.error(e.getMessage());

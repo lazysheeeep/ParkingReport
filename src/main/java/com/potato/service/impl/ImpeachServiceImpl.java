@@ -9,8 +9,8 @@ import com.potato.entity.ImpeachInfo;
 import com.potato.mapper.ImpeachInfoMapper;
 import com.potato.service.ImpeachService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -46,6 +46,8 @@ public class ImpeachServiceImpl extends ServiceImpl<ImpeachInfoMapper,ImpeachInf
     this.save(info);
     return "举报成功！";
   }
+
+
 
   public List<ImpeachInfo> getAllImpeach() {
 

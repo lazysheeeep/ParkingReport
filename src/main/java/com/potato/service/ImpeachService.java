@@ -1,6 +1,7 @@
 package com.potato.service;
 
 import com.potato.entity.ImpeachInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

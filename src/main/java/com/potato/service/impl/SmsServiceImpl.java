@@ -3,6 +3,7 @@ package com.potato.service.impl;
 import com.potato.config.SmsConfig;
 import com.potato.service.RedisService;
 import com.potato.service.SmsService;
+import com.potato.util.RandomCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class SmsServiceImpl implements SmsService {
       return false;
     }
     try {
-      String code = randomCode();
+      String code = RandomCode.randomCode();
       smsConfig.sendMessage(phone, code);
       redisService.setValueWithExpiration(phone,code, 5L, TimeUnit.MINUTES);
     } catch (Exception e) {
@@ -36,15 +37,4 @@ public class SmsServiceImpl implements SmsService {
     return true;
   }
 
-  public String randomCode() {
-    Random random = new Random();
-    int codeLength = 6;
-    StringBuilder sb = new StringBuilder(codeLength);
-    for (int i = 0; i < codeLength; i++) {
-      int randomDigit = random.nextInt(10);
-      sb.append(randomDigit);
-    }
-
-    return sb.toString();
-  }
 }
