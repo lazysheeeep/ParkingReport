@@ -52,7 +52,7 @@ public class UserController {
     }
   }
 
-  @PostMapping("/login")
+  @PostMapping(value = "/login")
   public R<UserResponseBody> login(@RequestBody LoginRequestBody loginRequestBody, HttpServletResponse response) {
     String username = loginRequestBody.getUsername();
     String password = loginRequestBody.getPassword();

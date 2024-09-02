@@ -2,6 +2,7 @@ package com.potato.controller;
 
 import com.potato.common.R;
 import com.potato.common.exception.CustomException;
+import com.potato.controller.dto.requestBody.PageRequest;
 import com.potato.entity.ImpeachInfo;
 import com.potato.service.ImpeachService;
 import com.potato.service.RecognizeService;
@@ -51,9 +52,10 @@ public class ImpeachController {
   }
 
   @GetMapping("/getAll")
-  public R<ImpeachInfo> getAll() {
+  public R<ImpeachInfo> getAll(@RequestBody PageRequest page) {
     R response = new R<>();
-    List<ImpeachInfo> infoList = impeachService.getAllImpeach();
+    int pageNum = page.getPageNum();
+    List<ImpeachInfo> infoList = impeachService.getAllImpeach(pageNum);
     for (ImpeachInfo info : infoList) {
       response.add(String.valueOf(info.getId()),info);
     }
@@ -68,9 +70,13 @@ public class ImpeachController {
     return R.success(info);
   }
 
-  @PostMapping("/pass")
-  public R<String> passImpeach(@RequestParam("id") Long id) {
-    String result = impeachService.passImpeach(id);
-    return R.success(result);
+  @PostMapping("/delete")
+  public R<String> deleteImpeach(@RequestParam("id") Long id) {
+    try {
+      String result = impeachService.deleteImpeach(id);
+      return R.success(result);
+    } catch (CustomException e) {
+      return R.error(e.getMessage());
+    }
   }
 }
