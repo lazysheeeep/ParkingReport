@@ -42,7 +42,7 @@ public class UserController {
     }
   }
 
-  @PostMapping("/send")
+  @GetMapping("/send")
   public R<String> sendCode(@RequestParam("phone") String phone) {
     boolean flag = smsService.send(phone);
     if (flag) {
