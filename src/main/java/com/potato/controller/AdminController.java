@@ -57,6 +57,17 @@ public class AdminController {
     return RList.success(result,total);
   }
 
+  @PostMapping("/getTreated")
+  public RList<List<ImpeachInfo>> getTreated(@RequestBody PageRequest pageRequest) {
+
+    List<ImpeachInfo> result = adminService.getTreatedImpeach(pageRequest.getPageNum());
+
+    int total = result.size();
+
+    return RList.success(result,total);
+
+  }
+
   @GetMapping("/getById")
   public R<ImpeachInfo> getById(@RequestParam("id")Long id) {
     ImpeachInfo info = impeachService.getById(id);
