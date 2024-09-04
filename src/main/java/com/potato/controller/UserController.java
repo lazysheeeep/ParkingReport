@@ -4,10 +4,13 @@ import com.potato.common.Context;
 import com.potato.common.exception.CustomException;
 import com.potato.common.R;
 import com.potato.controller.dto.requestBody.LoginRequestBody;
+import com.potato.controller.dto.requestBody.PageRequest;
 import com.potato.controller.dto.requestBody.RegisterRequestBody;
 import com.potato.controller.dto.responseBody.UserResponseBody;
+import com.potato.entity.Rewards;
 import com.potato.entity.User;
 import com.potato.service.PointsService;
+import com.potato.service.RewardsService;
 import com.potato.service.SmsService;
 import com.potato.service.UserService;
 import com.potato.util.JwtUtil;
@@ -16,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -31,6 +35,9 @@ public class UserController {
 
   @Autowired
   private PointsService pointsService;
+
+  @Autowired
+  private RewardsService rewardsService;
 
   @PostMapping("/register")
   public R<String> register(@RequestBody RegisterRequestBody registerRequestBody) {
@@ -93,6 +100,12 @@ public class UserController {
   @GetMapping("/getPoints")
   public R<Integer> getPoint() {
     int result = pointsService.get(Context.getCurrentUser().getUsername());
+    return R.success(result);
+  }
+
+  @GetMapping("/getRewards")
+  public R<List<Rewards>> getRewards(@RequestBody PageRequest page) {
+    List<Rewards> result = rewardsService.get(page.getPageNum());
     return R.success(result);
   }
 }

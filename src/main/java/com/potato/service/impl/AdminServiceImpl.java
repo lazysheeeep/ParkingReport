@@ -39,7 +39,7 @@ public class AdminServiceImpl implements AdminService {
     LambdaQueryWrapper<ImpeachInfo> queryWrapper = new LambdaQueryWrapper<>();
     queryWrapper.eq(ImpeachInfo::getProcessId,1);
     queryWrapper.orderByDesc(ImpeachInfo::getCreatedAt);
-    Page<ImpeachInfo> page = new Page<>(1, 2);
+    Page<ImpeachInfo> page = new Page<>(pageNum, 2);
     IPage<ImpeachInfo> resultPage = impeachInfoMapper.selectPage(page, queryWrapper);
 
     List<ImpeachInfo> records = resultPage.getRecords();
