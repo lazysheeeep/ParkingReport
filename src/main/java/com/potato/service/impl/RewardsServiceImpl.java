@@ -19,29 +19,23 @@ import java.util.List;
 @Service
 public class RewardsServiceImpl extends ServiceImpl<RewardsMapper, Rewards> implements RewardsService {
 
-  @Autowired
-  private ImpeachInfoMapper impeachInfoMapper;
 
   @Autowired
   private RewardsMapper rewardsMapper;
 
-  public String create(Long impeachId) {
+  public void create(ImpeachInfo impeachInfo) {
 
-    LambdaQueryWrapper<ImpeachInfo> queryWrapper = new LambdaQueryWrapper<>();
-    queryWrapper.eq(ImpeachInfo::getId,impeachId);
-    ImpeachInfo impeachInfo = impeachInfoMapper.selectOne(queryWrapper);
 
     Rewards rewards = new Rewards();
 
     rewards.setUsername(impeachInfo.getIUsername());
-    rewards.setImpeachId(impeachId);
+    rewards.setImpeachId(impeachInfo.getId());
     rewards.setImpeachTime(impeachInfo.getCreatedAt());
     rewards.setAddTime(LocalDateTime.now());
     rewards.setAddPoints(5);
 
     this.save(rewards);
 
-    return impeachInfo.getIUsername();
   }
 
   public List<Rewards> get(int pageNum) {

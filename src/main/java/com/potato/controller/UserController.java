@@ -8,12 +8,10 @@ import com.potato.controller.dto.requestBody.LoginRequestBody;
 import com.potato.controller.dto.requestBody.PageRequest;
 import com.potato.controller.dto.requestBody.RegisterRequestBody;
 import com.potato.controller.dto.responseBody.UserResponseBody;
+import com.potato.entity.PunishInfo;
 import com.potato.entity.Rewards;
 import com.potato.entity.User;
-import com.potato.service.PointsService;
-import com.potato.service.RewardsService;
-import com.potato.service.SmsService;
-import com.potato.service.UserService;
+import com.potato.service.*;
 import com.potato.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +37,9 @@ public class UserController {
 
   @Autowired
   private RewardsService rewardsService;
+
+  @Autowired
+  private PunishService punishService;
 
   @PostMapping("/register")
   public R<String> register(@RequestBody RegisterRequestBody registerRequestBody) {
@@ -108,6 +109,16 @@ public class UserController {
   public RList<List<Rewards>> getRewards(@RequestBody PageRequest page) {
 
     List<Rewards> result = rewardsService.get(page.getPageNum());
+
+    int total = result.size();
+
+    return RList.success(result,total);
+  }
+
+  @GetMapping("/getPunishInfo")
+  public RList<List<PunishInfo>> getPunishInfo(@RequestBody PageRequest page) {
+
+    List<PunishInfo> result = punishService.get(page.getPageNum());
 
     int total = result.size();
 

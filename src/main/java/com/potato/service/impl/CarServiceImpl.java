@@ -44,7 +44,7 @@ public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements CarSe
     }
   }
 
-  public String getUserByNumber(String plateNumber) {
+  public String getUserByNumber(String plateColor,String plateNumber) {
 
     LambdaQueryWrapper<Car> carMapper = new LambdaQueryWrapper<>();
     carMapper.eq(Car::getPlateNumber,plateNumber);
