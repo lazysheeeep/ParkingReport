@@ -15,12 +15,13 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements CarService {
 
+  private String errorCode;
+  private String errorMessage;
+
   private final ErrorCodeMap errorCodeMap = new ErrorCodeMap();
 
   public String binding(String plateColor, String plateNumber, String brand, String type) {
 
-    String errorCode;
-    String errorMessage;
 
     LambdaQueryWrapper<Car> carMapper = new LambdaQueryWrapper<>();
 
@@ -29,7 +30,7 @@ public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements CarSe
     Car exist = this.getOne(carMapper);
     if (exist == null) {
       Car curr = new Car();
-      curr.setUserId(Context.getCurrentUser().getId());
+      curr.setUsername(Context.getCurrentUser().getUsername());
       curr.setPlateColor(plateColor);
       curr.setPlateNumber(plateNumber);
       curr.setBrand(brand);
@@ -41,5 +42,22 @@ public class CarServiceImpl extends ServiceImpl<CarMapper, Car> implements CarSe
       errorMessage = errorCodeMap.getErrorMessage(errorCode);
       throw new CustomException(errorMessage);
     }
+  }
+
+  public String getUserByNumber(String plateNumber) {
+
+    LambdaQueryWrapper<Car> carMapper = new LambdaQueryWrapper<>();
+    carMapper.eq(Car::getPlateNumber,plateNumber);
+
+    Car car = this.getOne(carMapper);
+
+    if (car == null) {
+      errorCode = "4002";
+      errorMessage = errorCodeMap.getErrorMessage(errorCode);
+      throw new CustomException(errorMessage);
+    }
+
+    return car.getUsername();
+
   }
 }

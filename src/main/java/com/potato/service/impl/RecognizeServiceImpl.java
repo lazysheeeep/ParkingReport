@@ -47,7 +47,14 @@ public class RecognizeServiceImpl implements RecognizeService {
 
       file.transferTo(uploadedFile);
 
-      String[] result = config.verifyPlate(filename + rand + file.getOriginalFilename());
+      String localPath = filename + rand + file.getOriginalFilename();
+
+      String[] temp = config.verifyPlate(localPath);
+
+      String[] result = new String[3];
+      result[0] = temp[0];
+      result[1] = temp[1];
+      result[2] = localPath;
 
       if (result[0] == null || result[1] == null) {
         errorCode = "3002";

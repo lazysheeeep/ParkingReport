@@ -10,7 +10,7 @@ public class Car {
   @TableId(value = "id",type = IdType.AUTO)
   private Long id;
 
-  private Long userId;
+  private String username;
 
   private String plateColor;
 

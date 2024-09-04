@@ -2,6 +2,7 @@ package com.potato.controller;
 
 import com.potato.common.R;
 import com.potato.common.exception.CustomException;
+import com.potato.controller.dto.requestBody.ImpeachRequest;
 import com.potato.controller.dto.requestBody.PageRequest;
 import com.potato.controller.dto.responseBody.PlateResponseBody;
 import com.potato.entity.ImpeachInfo;
@@ -30,9 +31,9 @@ public class ImpeachController {
   private RecognizeService recognizeService;
 
   @PostMapping("/create")
-  public R<String> create(@RequestBody ImpeachInfo info) {
+  public R<String> create(@RequestBody ImpeachRequest request) {
     try {
-      String result = impeachService.createImpeach(info);
+      String result = impeachService.createImpeach(request);
       return R.success(result);
     } catch (CustomException e) {
       return R.error(e.getMessage());
@@ -49,6 +50,7 @@ public class ImpeachController {
       PlateResponseBody plateResponseBody = new PlateResponseBody();
       plateResponseBody.setColor(result[0]);
       plateResponseBody.setPlateNumber(result[1]);
+      plateResponseBody.setLocalPath(result[2]);
       return R.success(plateResponseBody);
     } catch (CustomException e) {
       return R.error(e.getMessage());

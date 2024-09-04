@@ -8,4 +8,6 @@ public class PlateResponseBody {
   private String color;
 
   private String plateNumber;
+
+  private String localPath;
 }

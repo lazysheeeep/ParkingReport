@@ -7,12 +7,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.potato.common.Context;
 import com.potato.common.ErrorCodeMap;
 import com.potato.common.exception.CustomException;
+import com.potato.controller.dto.requestBody.ImpeachRequest;
 import com.potato.entity.ImpeachInfo;
 import com.potato.mapper.ImpeachInfoMapper;
 import com.potato.service.ImpeachService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,26 +27,36 @@ public class ImpeachServiceImpl extends ServiceImpl<ImpeachInfoMapper,ImpeachInf
   private ImpeachInfoMapper impeachInfoMapper;
 
   @Override
-  public String createImpeach(ImpeachInfo info) {
+  public String createImpeach(ImpeachRequest request) {
 
     String errorCode;
     String errorMessage;
 
-    if (info.getPlateNumber().isEmpty()) {
+    if (request.getPlateNumber().isEmpty()) {
       errorCode = "2001";
       errorMessage = errorCodeMap.getErrorMessage(errorCode);
       throw new CustomException(errorMessage);
     }
 
-    if (info.getLocation().isEmpty()) {
+    if (request.getLocation().isEmpty()) {
       errorCode = "2002";
       errorMessage = errorCodeMap.getErrorMessage(errorCode);
       throw new CustomException(errorMessage);
     }
 
+    ImpeachInfo info = new ImpeachInfo();
+
+    info.setIUsername(Context.getCurrentUser().getUsername());
+    info.setIPhone(request.getIPhone());
     info.setCreatedAt(LocalDateTime.now());
+    info.setDescription(request.getDescription());
+    info.setPlateColor(request.getPlateColor());
+    info.setPlateNumber(request.getPlateNumber());
+    info.setLocation(request.getLocation());
+    info.setImagePath(request.getImagePath());
     info.setProcessId(1);
     this.save(info);
+
     return "举报成功！";
   }
 

@@ -4,4 +4,6 @@ public interface CarService {
 
   public String binding(String plateColor, String plateNumber, String brand, String type);
 
+  public String getUserByNumber(String plateNumber);
+
 }
