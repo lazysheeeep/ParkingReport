@@ -52,9 +52,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     LambdaQueryWrapper<User> queryWrapper =  new LambdaQueryWrapper<>();
     queryWrapper.eq(User::getUsername,username);
+    User user1 = this.getOne(queryWrapper);
     queryWrapper.eq(User::getPhone,phone);
-    User exist = this.getOne(queryWrapper);
-    if (exist == null) {
+    User user2 = this.getOne(queryWrapper);
+    if (user1 == null && user2 == null) {
       User user = new User();
       user.setUsername(username);
       user.setPhone(phone);
@@ -64,8 +65,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
       user.setStatus("1");
       this.save(user);
     } else {
-      log.info("用户已存在，请返回登录界面");
-      throw new CustomException("用户已存在，请返回登录界面");
+      log.info("用户名或手机号已被使用，请更换");
+      throw new CustomException("用户名或手机号已被使用，请更换");
     }
   }
 
