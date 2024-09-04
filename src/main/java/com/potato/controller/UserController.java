@@ -4,10 +4,7 @@ import com.potato.common.Context;
 import com.potato.common.RList;
 import com.potato.common.exception.CustomException;
 import com.potato.common.R;
-import com.potato.controller.dto.requestBody.ChangePasswordRequest;
-import com.potato.controller.dto.requestBody.LoginRequestBody;
-import com.potato.controller.dto.requestBody.PageRequest;
-import com.potato.controller.dto.requestBody.RegisterRequestBody;
+import com.potato.controller.dto.requestBody.*;
 import com.potato.controller.dto.responseBody.UserResponseBody;
 import com.potato.entity.PunishInfo;
 import com.potato.entity.Rewards;
@@ -102,9 +99,9 @@ public class UserController {
   }
 
   @PostMapping("/updateUser")
-  public R<String> updateUser(@RequestBody User user) {
+  public R<String> updateUser(@RequestBody UserUpdateRequest request) {
     try {
-      String result = userService.updateMessage(user);
+      String result = userService.updateMessage(request);
       return R.success(result);
     } catch (CustomException e) {
       return R.error(e.getMessage());

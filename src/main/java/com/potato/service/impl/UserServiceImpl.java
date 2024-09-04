@@ -7,6 +7,7 @@ import com.potato.common.exception.CustomException;
 import com.potato.common.ErrorCodeMap;
 import com.potato.controller.dto.UserBaseInfo;
 import com.potato.controller.dto.requestBody.ChangePasswordRequest;
+import com.potato.controller.dto.requestBody.UserUpdateRequest;
 import com.potato.entity.ImpeachInfo;
 import com.potato.entity.User;
 import com.potato.mapper.UserMapper;
@@ -99,32 +100,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
   @Override
   @Transactional
-  public String updateMessage(User user) {
+  public String updateMessage(UserUpdateRequest request) {
     String errorCode;
     int userId = Context.getCurrentUser().getId();
     LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
     queryWrapper.eq(User::getId, userId);
     // 通过该用户id找出该用户
-    UserBaseInfo realUser = Context.getCurrentUser();
-    String status = Context.getCurrentUser().getStatus();
-    String userName = Context.getCurrentUser().getUsername();
+    User user = this.getOne(queryWrapper);
+    user.setSex(request.getSex());
+    user.setAge(request.getAge());
 
-    user.setId(userId);
-    user.setStatus(status);
-
-    // 修改了用户名
-    if (!user.getUsername().equals(userName)) {
-      // 输入了空
-      if (user.getUsername().isEmpty()) {
-        throw new CustomException("用户名不能为空");
-      }
-      LambdaQueryWrapper<User> queryWrapper1 = new LambdaQueryWrapper<>();
-      queryWrapper1.eq(User::getUsername, user.getUsername());
-      User temp = this.getOne(queryWrapper1);
-      if (temp != null) {
-        throw new CustomException("用户名已存在");
-      }
-    }
     this.updateById(user);
     return "修改个人信息成功！";
   }
