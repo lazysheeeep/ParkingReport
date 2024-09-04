@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 
 @Data
 public class ImpeachInfo {
-  @TableId(value = "id", type = IdType.ASSIGN_ID)
-  private Long id;
+  @TableId(value = "id", type = IdType.AUTO)
+  private Integer id;
 
   @JsonProperty("i_username")
   private String iUsername;

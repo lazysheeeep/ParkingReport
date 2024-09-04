@@ -53,7 +53,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
     //校验token并且取出其中信息
     try {
       Claims claim = JwtUtil.parseToken(token);
-      Long userId = (Long) claim.get("userId");
+      int userId = (int) claim.get("userId");
       String userName = claim.getSubject();
       String status = claim.get("status").toString();
       String roleId = (String) claim.get("roleId");

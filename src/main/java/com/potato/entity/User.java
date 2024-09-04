@@ -8,8 +8,8 @@ import lombok.Data;
 public class User {
 
   //用户id随机
-  @TableId(value = "id", type = IdType.ASSIGN_ID)
-  private Long id;
+  @TableId(value = "id", type = IdType.AUTO)
+  private Integer id;
 
   //用户名
   private String username;

@@ -37,7 +37,7 @@ public class AdminController {
   @Autowired
   private CarService carService;
 
-  @GetMapping("/getAll")
+  @PostMapping("/getAll")
   public RList<List<ImpeachInfo>> getAllImpeach(@RequestBody PageRequest pageRequest) {
 
     List<ImpeachInfo> result = adminService.getAllImpeach(pageRequest.getPageNum());
@@ -47,7 +47,7 @@ public class AdminController {
     return RList.success(result,total);
   }
 
-  @GetMapping("/getUnTreated")
+  @PostMapping("/getUnTreated")
   public RList<List<ImpeachInfo>> getUnTreated(@RequestBody PageRequest pageRequest) {
 
     List<ImpeachInfo> result = adminService.getUnTreatedImpeach(pageRequest.getPageNum());
@@ -63,7 +63,7 @@ public class AdminController {
     return R.success(info);
   }
 
-  @PostMapping("/pass")
+  @GetMapping("/pass")
   @Transactional
   public R<String> passImpeach(@RequestParam("id") Long id) {
     String result = adminService.passImpeach(id);

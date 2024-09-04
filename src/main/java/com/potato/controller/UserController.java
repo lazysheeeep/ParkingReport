@@ -77,6 +77,7 @@ public class UserController {
       String token = JwtUtil.generateToken(username, user.getId(),user.getStatus(), user.getRoleId());
       response.addHeader("Authorization", token);
       UserResponseBody responseBody = new UserResponseBody();
+      responseBody.setToken(token);
       responseBody.setUserId(user.getId());
       responseBody.setUserName(user.getUsername());
       responseBody.setPhone(user.getPhone());
@@ -116,7 +117,7 @@ public class UserController {
     return R.success(result);
   }
 
-  @GetMapping("/getRewards")
+  @PostMapping("/getRewards")
   public RList<List<Rewards>> getRewards(@RequestBody PageRequest page) {
 
     List<Rewards> result = rewardsService.get(page.getPageNum());

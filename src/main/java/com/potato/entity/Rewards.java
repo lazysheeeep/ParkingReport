@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
 
 @Data
 public class Rewards {
-  @TableId(value = "id", type = IdType.ASSIGN_ID)
-  private Long id;
+  @TableId(value = "id", type = IdType.AUTO)
+  private Integer id;
 
   private String username;
 
-  private  Long impeachId;
+  private Integer impeachId;
 
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   @JsonSerialize(using = LocalDateTimeSerializer.class)

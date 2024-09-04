@@ -5,8 +5,10 @@ import lombok.Data;
 @Data
 public class UserResponseBody {
 
+  private String token;
+
   //用户id
-  private Long userId;
+  private int userId;
 
   //用户名称
   private String userName;

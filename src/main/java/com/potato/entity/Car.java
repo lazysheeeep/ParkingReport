@@ -8,7 +8,7 @@ import lombok.Data;
 public class Car {
 
   @TableId(value = "id",type = IdType.AUTO)
-  private Long id;
+  private Integer id;
 
   private String username;
 

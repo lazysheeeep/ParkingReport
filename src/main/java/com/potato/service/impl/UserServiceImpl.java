@@ -101,7 +101,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
   @Transactional
   public String updateMessage(User user) {
     String errorCode;
-    Long userId = Context.getCurrentId();
+    int userId = Context.getCurrentUser().getId();
     LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
     queryWrapper.eq(User::getId, userId);
     // 通过该用户id找出该用户
