@@ -1,5 +1,6 @@
 package com.potato.service.impl;
 
+import com.potato.common.ColorMap;
 import com.potato.common.Context;
 import com.potato.common.ErrorCodeMap;
 import com.potato.common.exception.CustomException;
@@ -19,6 +20,8 @@ import java.io.IOException;
 public class RecognizeServiceImpl implements RecognizeService {
 
   private final ErrorCodeMap errorCodeMap = new ErrorCodeMap();
+
+  private final ColorMap colorMap = new ColorMap();
 
   @Autowired
   private BaiDuConfig config;
@@ -52,7 +55,7 @@ public class RecognizeServiceImpl implements RecognizeService {
       String[] temp = config.verifyPlate(localPath);
 
       String[] result = new String[3];
-      result[0] = temp[0];
+      result[0] = colorMap.getChineseColor(temp[0]);
       result[1] = temp[1];
       result[2] = localPath;
 
