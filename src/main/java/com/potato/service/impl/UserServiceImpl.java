@@ -9,6 +9,7 @@ import com.potato.controller.dto.UserBaseInfo;
 import com.potato.entity.ImpeachInfo;
 import com.potato.entity.User;
 import com.potato.mapper.UserMapper;
+import com.potato.service.PointsService;
 import com.potato.service.RedisService;
 import com.potato.service.SmsService;
 import com.potato.service.UserService;
@@ -28,6 +29,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
   @Autowired
   private RedisService redisService;
+
+  @Autowired
+  private PointsService pointsService;
 
   private final ErrorCodeMap errorCodeMap = new ErrorCodeMap();
 
@@ -64,6 +68,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
       user.setRoleId("001");
       user.setStatus("1");
       this.save(user);
+      pointsService.create(username);
     } else {
       log.info("用户名或手机号已被使用，请更换");
       throw new CustomException("用户名或手机号已被使用，请更换");
