@@ -6,6 +6,7 @@ import com.potato.controller.dto.requestBody.PageRequest;
 import com.potato.entity.ImpeachInfo;
 import com.potato.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -72,6 +73,12 @@ public class AdminController {
     String pUsername = carService.getUserByNumber(temp.getPlateColor(),temp.getPlateNumber());
     punishService.create(pUsername,temp);
 
+    return R.success(result);
+  }
+
+  @PostMapping("/veto")
+  public R<String> vetoImpeach(@Param("id") Long id) {
+    String result = adminService.vetoImpeach(id);
     return R.success(result);
   }
 }

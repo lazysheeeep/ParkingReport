@@ -56,4 +56,14 @@ public class AdminServiceImpl implements AdminService {
     impeachInfoMapper.updateById(info);
     return "通过举报成功！";
   }
+
+  @Override
+  public String vetoImpeach(Long id) {
+    LambdaQueryWrapper<ImpeachInfo> queryWrapper = new LambdaQueryWrapper<>();
+    queryWrapper.eq(ImpeachInfo::getId,id);
+    ImpeachInfo info = impeachInfoMapper.selectOne(queryWrapper);
+    info.setProcessId(0);
+    impeachInfoMapper.updateById(info);
+    return "否决举报成功！";
+  }
 }

@@ -11,4 +11,6 @@ public interface AdminService {
   public List<ImpeachInfo> getUnTreatedImpeach(int pageNum);
 
   public String passImpeach(Long id);
+
+  public String vetoImpeach(Long id);
 }
