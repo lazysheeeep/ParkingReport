@@ -1,6 +1,7 @@
 package com.potato.controller;
 
 import com.potato.common.R;
+import com.potato.common.RList;
 import com.potato.common.exception.CustomException;
 import com.potato.controller.dto.requestBody.ImpeachRequest;
 import com.potato.controller.dto.requestBody.PageRequest;
@@ -12,10 +13,19 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -57,17 +67,26 @@ public class ImpeachController {
     }
   }
 
+  @GetMapping("/getImage")
+  public R<Resource> getImage(@RequestParam("local_path")String localPath) {
+
+    localPath = URLDecoder.decode(localPath, StandardCharsets.UTF_8);
+
+    try {
+      File file = new File(localPath);
+      InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+      return R.success(resource);
+    } catch (IOException e) {
+      return R.error(e.getMessage());
+    }
+  }
+
   @GetMapping("/getAll")
-  public R<ImpeachInfo> getAll(@RequestBody PageRequest page) {
-    R response = new R<>();
+  public RList<List<ImpeachInfo>> getAll(@RequestBody PageRequest page) {
     int pageNum = page.getPageNum();
     List<ImpeachInfo> infoList = impeachService.getAllImpeach(pageNum);
-    for (ImpeachInfo info : infoList) {
-      response.add(String.valueOf(info.getId()),info);
-    }
-    response.setMessage("举报信息如下：");
-    response.setCode(1);
-    return response;
+    int total = infoList.size();
+    return RList.success(infoList,total);
   }
 
   @GetMapping("/getById")

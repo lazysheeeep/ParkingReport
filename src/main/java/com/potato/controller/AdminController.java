@@ -1,6 +1,7 @@
 package com.potato.controller;
 
 import com.potato.common.R;
+import com.potato.common.RList;
 import com.potato.controller.dto.requestBody.PageRequest;
 import com.potato.entity.ImpeachInfo;
 import com.potato.service.AdminService;
@@ -29,18 +30,23 @@ public class AdminController {
   private PointsService pointsService;
 
   @GetMapping("/getAll")
-  public R<List<ImpeachInfo>> getAllImpeach(@RequestBody PageRequest pageRequest) {
+  public RList<List<ImpeachInfo>> getAllImpeach(@RequestBody PageRequest pageRequest) {
 
     List<ImpeachInfo> result = adminService.getAllImpeach(pageRequest.getPageNum());
 
-    return R.success(result);
+    int total = result.size();
+
+    return RList.success(result,total);
   }
 
   @GetMapping("/getUnTreated")
-  public R<List<ImpeachInfo>> getUnTreated(@RequestBody PageRequest pageRequest) {
+  public RList<List<ImpeachInfo>> getUnTreated(@RequestBody PageRequest pageRequest) {
+
     List<ImpeachInfo> result = adminService.getUnTreatedImpeach(pageRequest.getPageNum());
 
-    return R.success(result);
+    int total = result.size();
+
+    return RList.success(result,total);
   }
 
   @PostMapping("/pass")

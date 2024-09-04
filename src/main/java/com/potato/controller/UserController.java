@@ -1,6 +1,7 @@
 package com.potato.controller;
 
 import com.potato.common.Context;
+import com.potato.common.RList;
 import com.potato.common.exception.CustomException;
 import com.potato.common.R;
 import com.potato.controller.dto.requestBody.LoginRequestBody;
@@ -104,8 +105,12 @@ public class UserController {
   }
 
   @GetMapping("/getRewards")
-  public R<List<Rewards>> getRewards(@RequestBody PageRequest page) {
+  public RList<List<Rewards>> getRewards(@RequestBody PageRequest page) {
+
     List<Rewards> result = rewardsService.get(page.getPageNum());
-    return R.success(result);
+
+    int total = result.size();
+
+    return RList.success(result,total);
   }
 }
