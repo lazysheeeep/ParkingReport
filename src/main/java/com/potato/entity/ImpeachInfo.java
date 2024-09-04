@@ -29,6 +29,8 @@ public class ImpeachInfo {
 
   private String description;
 
+  private String plateColor;
+
   @JsonProperty("plate_number")
   private String plateNumber;
 
