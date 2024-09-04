@@ -6,11 +6,15 @@ import com.potato.entity.Points;
 import com.potato.mapper.PointsMapper;
 import com.potato.service.PointsService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
 public class PointsServiceImpl extends ServiceImpl<PointsMapper, Points> implements PointsService {
+
+  @Autowired
+  private PointsMapper pointsMapper;
 
   @Override
   public void create(String username) {
@@ -26,5 +30,14 @@ public class PointsServiceImpl extends ServiceImpl<PointsMapper, Points> impleme
     queryWrapper.eq(Points::getUsername,username);
     Points result = this.getOne(queryWrapper);
     return result.getSummary();
+  }
+
+  @Override
+  public void add(String username) {
+    LambdaQueryWrapper<Points> queryWrapper = new LambdaQueryWrapper<>();
+    queryWrapper.eq(Points::getUsername,username);
+    Points result = this.getOne(queryWrapper);
+    result.setSummary(result.getSummary() + 5);
+    pointsMapper.update(result,queryWrapper);
   }
 }
