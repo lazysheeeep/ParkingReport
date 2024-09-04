@@ -23,7 +23,7 @@ public class RecognizeServiceImpl implements RecognizeService {
   @Autowired
   private BaiDuConfig config;
 
-  public String recognizePlate(MultipartFile file) {
+  public String[] recognizePlate(MultipartFile file) {
 
     String errorCode;
     String errorMessage;
@@ -47,9 +47,9 @@ public class RecognizeServiceImpl implements RecognizeService {
 
       file.transferTo(uploadedFile);
 
-      String result = config.verifyPlate(filename + rand + file.getOriginalFilename());
+      String[] result = config.verifyPlate(filename + rand + file.getOriginalFilename());
 
-      if (result == "") {
+      if (result[0] == null || result[1] == null) {
         errorCode = "3002";
         errorMessage = errorCodeMap.getErrorMessage(errorCode);
         throw new CustomException(errorMessage);
