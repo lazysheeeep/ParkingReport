@@ -4,6 +4,7 @@ import com.potato.common.Context;
 import com.potato.common.RList;
 import com.potato.common.exception.CustomException;
 import com.potato.common.R;
+import com.potato.controller.dto.requestBody.ChangePasswordRequest;
 import com.potato.controller.dto.requestBody.LoginRequestBody;
 import com.potato.controller.dto.requestBody.PageRequest;
 import com.potato.controller.dto.requestBody.RegisterRequestBody;
@@ -84,6 +85,16 @@ public class UserController {
       responseBody.setAge(user.getAge());
       responseBody.setRoleId(user.getRoleId());
       return R.success(responseBody);
+    } catch (CustomException e) {
+      return R.error(e.getMessage());
+    }
+  }
+
+  @PostMapping("/changePassword")
+  public R<String> changePassword(@RequestBody ChangePasswordRequest request) {
+    try {
+      String result = userService.changePassword(request);
+      return R.success(result);
     } catch (CustomException e) {
       return R.error(e.getMessage());
     }

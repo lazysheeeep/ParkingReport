@@ -1,6 +1,7 @@
 package com.potato.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.potato.controller.dto.requestBody.ChangePasswordRequest;
 import com.potato.entity.ImpeachInfo;
 import com.potato.entity.User;
 
@@ -14,5 +15,7 @@ public interface UserService extends IService<User> {
   User login(String username, String password);
 
   String updateMessage(User user);
+
+  String changePassword(ChangePasswordRequest request);
 
 }

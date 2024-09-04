@@ -6,6 +6,7 @@ import com.potato.common.Context;
 import com.potato.common.exception.CustomException;
 import com.potato.common.ErrorCodeMap;
 import com.potato.controller.dto.UserBaseInfo;
+import com.potato.controller.dto.requestBody.ChangePasswordRequest;
 import com.potato.entity.ImpeachInfo;
 import com.potato.entity.User;
 import com.potato.mapper.UserMapper;
@@ -23,6 +24,8 @@ import java.util.Date;
 @Service
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+  @Autowired
+  private UserMapper userMapper;
 
   @Autowired
   private SmsService smsService;
@@ -124,6 +127,46 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
     this.updateById(user);
     return "修改个人信息成功！";
+  }
+
+  @Override
+  public String changePassword(ChangePasswordRequest request) {
+
+    String errorCode;
+    String errorMessage;
+
+    if (!request.getPassword().equals(request.getConfirmedPassword())) {
+      errorCode = "1001";
+      errorMessage = errorCodeMap.getErrorMessage(errorCode);
+      log.info(errorMessage);
+      throw new CustomException(errorMessage);
+    }
+
+
+    if (!request.getCode().equals(redisService.getValue(request.getPhone()))) {
+      errorCode = "1002";
+      errorMessage = errorCodeMap.getErrorMessage(errorCode);
+      log.info(errorMessage);
+      throw new CustomException(errorMessage);
+    }
+
+    LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+    queryWrapper.eq(User::getUsername,request.getUsername());
+    queryWrapper.eq(User::getPhone,request.getPhone());
+
+    User temp = this.getOne(queryWrapper);
+    if (temp == null) {
+      errorCode = "1006";
+      errorMessage = errorCodeMap.getErrorMessage(errorCode);
+      log.info(errorMessage);
+      throw new CustomException(errorMessage);
+    }
+
+    temp.setPassword(request.getPassword());
+
+    userMapper.updateById(temp);
+
+    return "修改密码成功!";
   }
 
 }

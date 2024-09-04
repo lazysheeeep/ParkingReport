@@ -33,7 +33,8 @@ public class WebConfig extends WebMvcConfigurationSupport {
             .excludePathPatterns( //放行的页面
                     "/users/login",
                     "/users/register",
-                    "/users/send"
+                    "/users/send",
+                    "/users/changePassword"
             );
   }
 

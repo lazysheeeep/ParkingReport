@@ -12,6 +12,7 @@ public class ErrorCodeMap {
     errorMap.put("1003","用户名或密码错误");
     errorMap.put("1004","Token格式验证失败");
     errorMap.put("1005","Token已过期");
+    errorMap.put("1006","用户名或手机号错误");
 
     errorMap.put("2001","车牌号不能为空");
     errorMap.put("2002","地点不能为空");
