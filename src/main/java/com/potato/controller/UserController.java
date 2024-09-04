@@ -1,11 +1,13 @@
 package com.potato.controller;
 
+import com.potato.common.Context;
 import com.potato.common.exception.CustomException;
 import com.potato.common.R;
 import com.potato.controller.dto.requestBody.LoginRequestBody;
 import com.potato.controller.dto.requestBody.RegisterRequestBody;
 import com.potato.controller.dto.responseBody.UserResponseBody;
 import com.potato.entity.User;
+import com.potato.service.PointsService;
 import com.potato.service.SmsService;
 import com.potato.service.UserService;
 import com.potato.util.JwtUtil;
@@ -26,6 +28,9 @@ public class UserController {
 
   @Autowired
   private SmsService smsService;
+
+  @Autowired
+  private PointsService pointsService;
 
   @PostMapping("/register")
   public R<String> register(@RequestBody RegisterRequestBody registerRequestBody) {
@@ -83,5 +88,11 @@ public class UserController {
     } catch (CustomException e) {
       return R.error(e.getMessage());
     }
+  }
+
+  @GetMapping("/getPoints")
+  public R<Integer> getPoint() {
+    int result = pointsService.get(Context.getCurrentUser().getUsername());
+    return R.success(result);
   }
 }

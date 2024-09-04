@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Points {
-  String username;
+  private String username;
 
-  int summary;
+  private int summary;
 }
