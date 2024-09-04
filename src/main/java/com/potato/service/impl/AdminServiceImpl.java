@@ -33,6 +33,21 @@ public class AdminServiceImpl implements AdminService {
     return records;
   }
 
+  @Override
+  public List<ImpeachInfo> getUnTreatedImpeach(int pageNum) {
+
+    LambdaQueryWrapper<ImpeachInfo> queryWrapper = new LambdaQueryWrapper<>();
+    queryWrapper.eq(ImpeachInfo::getProcessId,1);
+    queryWrapper.orderByDesc(ImpeachInfo::getCreatedAt);
+    Page<ImpeachInfo> page = new Page<>(1, 2);
+    IPage<ImpeachInfo> resultPage = impeachInfoMapper.selectPage(page, queryWrapper);
+
+    List<ImpeachInfo> records = resultPage.getRecords();
+
+    return records;
+  }
+
+  @Override
   public String passImpeach(Long id) {
     LambdaQueryWrapper<ImpeachInfo> queryWrapper = new LambdaQueryWrapper<>();
     queryWrapper.eq(ImpeachInfo::getId,id);

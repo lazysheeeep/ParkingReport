@@ -8,5 +8,7 @@ public interface AdminService {
 
   public List<ImpeachInfo> getAllImpeach(int pageNum);
 
+  public List<ImpeachInfo> getUnTreatedImpeach(int pageNum);
+
   public String passImpeach(Long id);
 }

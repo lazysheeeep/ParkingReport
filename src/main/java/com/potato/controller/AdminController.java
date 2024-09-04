@@ -27,6 +27,13 @@ public class AdminController {
     return R.success(result);
   }
 
+  @GetMapping("/getUnTreated")
+  public R<List<ImpeachInfo>> getUnTreated(@RequestBody PageRequest pageRequest) {
+    List<ImpeachInfo> result = adminService.getUnTreatedImpeach(pageRequest.getPageNum());
+
+    return R.success(result);
+  }
+
   @PostMapping("/pass")
   public R<String> passImpeach(@RequestParam("id") Long id) {
     String result = adminService.passImpeach(id);

@@ -59,7 +59,7 @@ public class RecognizeServiceImpl implements RecognizeService {
 
     } catch (IOException e) {
       errorCode = "3001";
-      errorMessage = errorCodeMap.getErrorMessage(errorCode);
+      errorCodeMap.getErrorMessage(errorCode);
       throw new RuntimeException(e);
     }
   }
