@@ -4,6 +4,7 @@ import com.potato.common.Context;
 import com.potato.common.RList;
 import com.potato.common.exception.CustomException;
 import com.potato.common.R;
+import com.potato.controller.dto.ListInfo;
 import com.potato.controller.dto.requestBody.*;
 import com.potato.controller.dto.responseBody.UserResponseBody;
 import com.potato.entity.PunishInfo;
@@ -127,10 +128,11 @@ public class UserController {
   @PostMapping("/getPunishInfo")
   public RList<List<PunishInfo>> getPunishInfo(@RequestBody PageRequest page) {
 
-    List<PunishInfo> result = punishService.get(page.getPageNum());
+    ListInfo result = punishService.get(page.getPageNum());
 
-    int total = result.size();
+    int total = result.getTotal();
+    List<PunishInfo> infoList = result.getLists();
 
-    return RList.success(result,total);
+    return RList.success(infoList,total);
   }
 }

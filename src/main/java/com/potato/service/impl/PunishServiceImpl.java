@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.potato.common.Context;
+import com.potato.controller.dto.ListInfo;
 import com.potato.entity.ImpeachInfo;
 import com.potato.entity.PunishInfo;
 import com.potato.entity.Rewards;
@@ -37,16 +38,20 @@ public class PunishServiceImpl extends ServiceImpl<PunishInfoMapper, PunishInfo>
     this.save(punishInfo);
   }
 
-  public List<PunishInfo> get(int pageNum) {
+  public ListInfo get(int pageNum) {
 
     LambdaQueryWrapper<PunishInfo> queryWrapper = new LambdaQueryWrapper<>();
     queryWrapper.eq(PunishInfo::getPUsername,Context.getCurrentUser().getUsername());
-    queryWrapper.orderByDesc(PunishInfo::getPassTime);
+    int total = punishInfoMapper.selectList(queryWrapper).size();
 
+    queryWrapper.orderByDesc(PunishInfo::getPassTime);
     Page<PunishInfo> page = new Page<>(pageNum,2);
     IPage<PunishInfo> resultPage = punishInfoMapper.selectPage(page,queryWrapper);
+    List<PunishInfo> infoList = resultPage.getRecords();
 
-    List<PunishInfo> result = resultPage.getRecords();
+    ListInfo result = new ListInfo();
+    result.setTotal(total);
+    result.setLists(infoList);
 
     return result;
   }
