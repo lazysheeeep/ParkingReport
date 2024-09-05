@@ -5,6 +5,7 @@ import com.potato.common.RList;
 import com.potato.common.exception.CustomException;
 import com.potato.controller.dto.requestBody.ImpeachRequest;
 import com.potato.controller.dto.requestBody.PageRequest;
+import com.potato.controller.dto.responseBody.ListPlateResponseBody;
 import com.potato.controller.dto.responseBody.PlateResponseBody;
 import com.potato.entity.ImpeachInfo;
 import com.potato.service.ImpeachService;
@@ -46,17 +47,13 @@ public class ImpeachController {
   }
 
   @PostMapping("/getPlate")
-  public R<PlateResponseBody> getPlate(@RequestParam("file") MultipartFile image) {
+  public R<ListPlateResponseBody> getPlate(@RequestParam("file") MultipartFile image) {
     if (image == null || image.isEmpty()) {
       return R.error("图片为空");
     }
     try {
-      String[] result = recognizeService.recognizePlate(image);
-      PlateResponseBody plateResponseBody = new PlateResponseBody();
-      plateResponseBody.setColor(result[0]);
-      plateResponseBody.setPlateNumber(result[1]);
-      plateResponseBody.setLocalPath(result[2]);
-      return R.success(plateResponseBody);
+      ListPlateResponseBody result = recognizeService.recognizePlate(image);
+      return R.success(result);
     } catch (CustomException e) {
       return R.error(e.getMessage());
     }

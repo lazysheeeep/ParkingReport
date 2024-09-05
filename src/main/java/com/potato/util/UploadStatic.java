@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 public class UploadStatic {
 
-  private final Path rootLocation = Paths.get("src/main/resources/static/uploads");
+  private final Path rootLocation = Paths.get("uploads");
 
   public String uploadFile(MultipartFile file) {
 
