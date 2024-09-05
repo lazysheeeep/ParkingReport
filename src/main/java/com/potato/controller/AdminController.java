@@ -2,6 +2,7 @@ package com.potato.controller;
 
 import com.potato.common.R;
 import com.potato.common.RList;
+import com.potato.controller.dto.ListInfo;
 import com.potato.controller.dto.requestBody.PageRequest;
 import com.potato.entity.ImpeachInfo;
 import com.potato.service.*;
@@ -40,31 +41,33 @@ public class AdminController {
   @PostMapping("/getAll")
   public RList<List<ImpeachInfo>> getAllImpeach(@RequestBody PageRequest pageRequest) {
 
-    List<ImpeachInfo> result = adminService.getAllImpeach(pageRequest.getPageNum());
+    ListInfo result = adminService.getAllImpeach(pageRequest.getPageNum());
+    int total = result.getTotal();
+    List<ImpeachInfo> infoList = result.getLists();
 
-    int total = result.size();
-
-    return RList.success(result,total);
+    return RList.success(infoList, total);
   }
 
   @PostMapping("/getUnTreated")
   public RList<List<ImpeachInfo>> getUnTreated(@RequestBody PageRequest pageRequest) {
 
-    List<ImpeachInfo> result = adminService.getUnTreatedImpeach(pageRequest.getPageNum());
+    ListInfo result = adminService.getUnTreatedImpeach(pageRequest.getPageNum());
 
-    int total = result.size();
+    int total = result.getTotal();
+    List<ImpeachInfo> infoList = result.getLists();
 
-    return RList.success(result,total);
+    return RList.success(infoList, total);
   }
 
   @PostMapping("/getTreated")
   public RList<List<ImpeachInfo>> getTreated(@RequestBody PageRequest pageRequest) {
 
-    List<ImpeachInfo> result = adminService.getTreatedImpeach(pageRequest.getPageNum());
+    ListInfo result = adminService.getTreatedImpeach(pageRequest.getPageNum());
 
-    int total = result.size();
+    int total = result.getTotal();
+    List<ImpeachInfo> infoList = result.getLists();
 
-    return RList.success(result,total);
+    return RList.success(infoList, total);
 
   }
 

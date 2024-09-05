@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.potato.common.ErrorCodeMap;
+import com.potato.controller.dto.ListInfo;
 import com.potato.entity.ImpeachInfo;
 import com.potato.mapper.ImpeachInfoMapper;
 import com.potato.service.AdminService;
@@ -21,44 +22,59 @@ public class AdminServiceImpl implements AdminService {
   private ImpeachInfoMapper impeachInfoMapper;
 
   @Override
-  public List<ImpeachInfo> getAllImpeach(int pageNum) {
+  public ListInfo getAllImpeach(int pageNum) {
 
     LambdaQueryWrapper<ImpeachInfo> queryWrapper = new LambdaQueryWrapper<>();
     queryWrapper.orderByDesc(ImpeachInfo::getCreatedAt);
+    int total = impeachInfoMapper.selectList(queryWrapper).size();
+
     Page<ImpeachInfo> page = new Page<>(pageNum, 2); // 第1页，每页2条记录
     IPage<ImpeachInfo> resultPage = impeachInfoMapper.selectPage(page, queryWrapper);
+    List<ImpeachInfo> infoList = resultPage.getRecords();
 
-    List<ImpeachInfo> records = resultPage.getRecords();
+    ListInfo result = new ListInfo();
+    result.setTotal(total);
+    result.setLists(infoList);
 
-    return records;
+    return result;
   }
 
   @Override
-  public List<ImpeachInfo> getUnTreatedImpeach(int pageNum) {
+  public ListInfo getUnTreatedImpeach(int pageNum) {
 
     LambdaQueryWrapper<ImpeachInfo> queryWrapper = new LambdaQueryWrapper<>();
     queryWrapper.eq(ImpeachInfo::getProcessId,1);
+    int total = impeachInfoMapper.selectList(queryWrapper).size();
+
     queryWrapper.orderByDesc(ImpeachInfo::getCreatedAt);
     Page<ImpeachInfo> page = new Page<>(pageNum, 2);
     IPage<ImpeachInfo> resultPage = impeachInfoMapper.selectPage(page, queryWrapper);
+    List<ImpeachInfo> infoList = resultPage.getRecords();
 
-    List<ImpeachInfo> records = resultPage.getRecords();
+    ListInfo result = new ListInfo();
+    result.setTotal(total);
+    result.setLists(infoList);
 
-    return records;
+    return result;
   }
 
   @Override
-  public List<ImpeachInfo> getTreatedImpeach(int pageNum) {
+  public ListInfo getTreatedImpeach(int pageNum) {
 
     LambdaQueryWrapper<ImpeachInfo> queryWrapper = new LambdaQueryWrapper<>();
     queryWrapper.in(ImpeachInfo::getProcessId,0,2);
+    int total = impeachInfoMapper.selectList(queryWrapper).size();
+
     queryWrapper.orderByDesc(ImpeachInfo::getCreatedAt);
     Page<ImpeachInfo> page = new Page<>(pageNum, 2);
     IPage<ImpeachInfo> resultPage = impeachInfoMapper.selectPage(page, queryWrapper);
+    List<ImpeachInfo> infoList = resultPage.getRecords();
 
-    List<ImpeachInfo> records = resultPage.getRecords();
+    ListInfo result = new ListInfo();
+    result.setTotal(total);
+    result.setLists(infoList);
 
-    return records;
+    return result;
   }
 
   @Override
