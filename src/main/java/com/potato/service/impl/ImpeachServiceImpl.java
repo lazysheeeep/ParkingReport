@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.potato.common.Context;
 import com.potato.common.ErrorCodeMap;
 import com.potato.common.exception.CustomException;
+import com.potato.controller.dto.ListInfo;
 import com.potato.controller.dto.requestBody.ImpeachRequest;
 import com.potato.entity.ImpeachInfo;
 import com.potato.mapper.ImpeachInfoMapper;
@@ -62,19 +63,28 @@ public class ImpeachServiceImpl extends ServiceImpl<ImpeachInfoMapper,ImpeachInf
 
 
 
-  public List<ImpeachInfo> getAllImpeach(int pageNum) {
+  public ListInfo getAllImpeach(int pageNum) {
 
     Page<ImpeachInfo> page = new Page<>(pageNum,2);
     String username = Context.getCurrentUser().getUsername();
+
     LambdaQueryWrapper<ImpeachInfo> queryWrapper = new LambdaQueryWrapper<>();
     queryWrapper.eq(ImpeachInfo::getIUsername,username);
+    int total = impeachInfoMapper.selectList(queryWrapper).size();
+
     queryWrapper.orderByDesc(ImpeachInfo::getCreatedAt);
     IPage<ImpeachInfo> resultPage = impeachInfoMapper.selectPage(page,queryWrapper);
     List<ImpeachInfo> infoList = resultPage.getRecords();
+
     if (infoList.isEmpty()) {
       return null;
     }
-    return infoList;
+
+    ListInfo result = new ListInfo();
+    result.setTotal(total);
+    result.setLists(infoList);
+
+    return result;
   }
 
   public ImpeachInfo getById(Long id) {

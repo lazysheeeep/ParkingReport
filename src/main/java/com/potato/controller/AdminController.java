@@ -77,17 +77,23 @@ public class AdminController {
   @GetMapping("/pass")
   @Transactional
   public R<String> passImpeach(@RequestParam("id") Long id) {
-    String result = adminService.passImpeach(id);
-    ImpeachInfo temp = impeachService.getById(id);
-    rewardsService.create(temp);
-    pointsService.add(temp.getIUsername());
-    String pUsername = carService.getUserByNumber(temp.getPlateColor(),temp.getPlateNumber());
-    punishService.create(pUsername,temp);
+    try {
+      String result = adminService.passImpeach(id);
+      ImpeachInfo temp = impeachService.getById(id);
+      rewardsService.create(temp);
+      pointsService.add(temp.getIUsername());
+      String pUsername = carService.getUserByNumber(temp.getPlateColor(),temp.getPlateNumber());
+      punishService.create(pUsername,temp);
 
-    return R.success(result);
+      return R.success(result);
+    } catch (Exception e) {
+
+      return R.error(e.getMessage());
+
+    }
   }
 
-  @PostMapping("/veto")
+  @GetMapping("/veto")
   public R<String> vetoImpeach(@Param("id") Long id) {
     String result = adminService.vetoImpeach(id);
     return R.success(result);

@@ -1,6 +1,7 @@
 package com.potato.util;
 
 import com.potato.common.Context;
+import com.potato.common.exception.CustomException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -25,17 +26,19 @@ public class UploadStatic {
       // 保存文件到用户文件夹
       Path filePath = userFolder.resolve(file.getOriginalFilename());
       int count = 1;
+      String newFileName = null;
       while (Files.exists(filePath)) {
-        String newFileName = "(" + count + ")" + file.getOriginalFilename();
+        newFileName = "(" + count + ")" + file.getOriginalFilename();
         filePath = userFolder.resolve(newFileName);
         count++;
       }
       Files.copy(file.getInputStream(), filePath);
 
-      return "uploads/" + Context.getCurrentUser().getUsername() + "/" + file.getOriginalFilename();
+      return "uploads/" + Context.getCurrentUser().getUsername() + "/" + newFileName;
     } catch (IOException e) {
-      e.printStackTrace();
-      return "redirect:/uploadFailure";
+
+      throw new CustomException(e.getMessage());
+
     }
   }
 }

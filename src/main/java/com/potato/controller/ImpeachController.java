@@ -3,6 +3,7 @@ package com.potato.controller;
 import com.potato.common.R;
 import com.potato.common.RList;
 import com.potato.common.exception.CustomException;
+import com.potato.controller.dto.ListInfo;
 import com.potato.controller.dto.requestBody.ImpeachRequest;
 import com.potato.controller.dto.requestBody.PageRequest;
 import com.potato.controller.dto.responseBody.ListPlateResponseBody;
@@ -76,8 +77,9 @@ public class ImpeachController {
   @PostMapping("/getAll")
   public RList<List<ImpeachInfo>> getAll(@RequestBody PageRequest page) {
     int pageNum = page.getPageNum();
-    List<ImpeachInfo> infoList = impeachService.getAllImpeach(pageNum);
-    int total = infoList.size();
+    ListInfo result = impeachService.getAllImpeach(pageNum);
+    int total = result.getTotal();
+    List<ImpeachInfo> infoList = result.getLists();
     return RList.success(infoList, total);
   }
 
