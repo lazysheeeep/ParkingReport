@@ -118,11 +118,12 @@ public class UserController {
   @PostMapping("/getRewards")
   public RList<List<Rewards>> getRewards(@RequestBody PageRequest page) {
 
-    List<Rewards> result = rewardsService.get(page.getPageNum());
+    ListInfo result = rewardsService.get(page.getPageNum());
 
-    int total = result.size();
+    int total = result.getTotal();
+    List<Rewards> infoList = result.getLists();
 
-    return RList.success(result,total);
+    return RList.success(infoList,total);
   }
 
   @PostMapping("/getPunishInfo")

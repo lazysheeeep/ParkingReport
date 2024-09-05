@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.potato.common.Context;
+import com.potato.controller.dto.ListInfo;
 import com.potato.entity.ImpeachInfo;
 import com.potato.entity.Rewards;
 import com.potato.mapper.ImpeachInfoMapper;
@@ -38,15 +39,20 @@ public class RewardsServiceImpl extends ServiceImpl<RewardsMapper, Rewards> impl
 
   }
 
-  public List<Rewards> get(int pageNum) {
+  public ListInfo get(int pageNum) {
 
     LambdaQueryWrapper<Rewards> queryWrapper = new LambdaQueryWrapper<>();
     queryWrapper.eq(Rewards::getUsername, Context.getCurrentUser().getUsername());
+    int total = rewardsMapper.selectList(queryWrapper).size();
+
     queryWrapper.orderByDesc(Rewards::getAddTime);
     Page<Rewards> page = new Page<>(pageNum,2);
     IPage<Rewards> resultPage = rewardsMapper.selectPage(page, queryWrapper);
+    List<Rewards> infoList = resultPage.getRecords();
 
-    List<Rewards> result = resultPage.getRecords();
+    ListInfo result= new ListInfo();
+    result.setTotal(total);
+    result.setLists(infoList);
 
     return result;
   }

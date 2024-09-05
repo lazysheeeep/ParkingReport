@@ -1,5 +1,6 @@
 package com.potato.service;
 
+import com.potato.controller.dto.ListInfo;
 import com.potato.entity.ImpeachInfo;
 import com.potato.entity.Rewards;
 
@@ -9,5 +10,5 @@ public interface RewardsService {
 
   public void create(ImpeachInfo impeachInfo);
 
-  public List<Rewards> get(int pageNum);
+  public ListInfo get(int pageNum);
 }
