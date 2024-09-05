@@ -22,11 +22,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
   @Autowired private PermissionInterceptor permissionInterceptor;
 
   @Override
-  public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-  }
-
-  @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(permissionInterceptor)
             .addPathPatterns("/**")
@@ -34,8 +29,16 @@ public class WebConfig extends WebMvcConfigurationSupport {
                     "/users/login",
                     "/users/register",
                     "/users/send",
-                    "/users/changePassword"
+                    "/users/changePassword",
+                    "/uploads/**"
             );
+  }
+
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    // 将/uploads/** 映射到 static/uploads/
+    registry.addResourceHandler("/uploads/**")
+            .addResourceLocations("classpath:/static/uploads/");
   }
 
   @Override

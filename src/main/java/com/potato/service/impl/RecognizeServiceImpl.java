@@ -7,6 +7,7 @@ import com.potato.common.exception.CustomException;
 import com.potato.config.BaiDuConfig;
 import com.potato.service.RecognizeService;
 import com.potato.util.RandomCode;
+import com.potato.util.UploadStatic;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,17 +48,18 @@ public class RecognizeServiceImpl implements RecognizeService {
       String rand = RandomCode.randomCode();
 
       File uploadedFile = new File(filename,rand + file.getOriginalFilename());
-
+      String localPath = filename + rand + file.getOriginalFilename();
       file.transferTo(uploadedFile);
 
-      String localPath = filename + rand + file.getOriginalFilename();
+      UploadStatic uploadStatic = new UploadStatic();
+      String staticPath = uploadStatic.uploadFile(file);
 
       String[] temp = config.verifyPlate(localPath);
 
       String[] result = new String[3];
       result[0] = colorMap.getChineseColor(temp[0]);
       result[1] = temp[1];
-      result[2] = localPath;
+      result[2] = "http://localhost:8080/" + staticPath;
 
       if (result[0] == null || result[1] == null) {
         errorCode = "3002";

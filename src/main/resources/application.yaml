@@ -26,6 +26,7 @@ spring:
       enabled: true
       max-file-size: 30MB
       max-request-size: 30MB
+      file-size-threshold: 5MB
 
 sms:
   sdkAppId: 1400848864

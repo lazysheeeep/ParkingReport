@@ -124,7 +124,7 @@ public class UserController {
     return RList.success(result,total);
   }
 
-  @GetMapping("/getPunishInfo")
+  @PostMapping("/getPunishInfo")
   public RList<List<PunishInfo>> getPunishInfo(@RequestBody PageRequest page) {
 
     List<PunishInfo> result = punishService.get(page.getPageNum());
