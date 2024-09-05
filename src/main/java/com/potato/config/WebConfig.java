@@ -36,7 +36,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    // 将/uploads/** 映射到 static/uploads/
+    // 将/uploads/** 映射到 uploads/
     registry.addResourceHandler("/uploads/**")
             .addResourceLocations("file:uploads/");
   }
