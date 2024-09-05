@@ -18,8 +18,7 @@ public class ErrorCodeMap {
     errorMap.put("2002","地点不能为空");
     errorMap.put("2003","删除举报信息失败");
 
-    errorMap.put("3001","保存车牌至本地失败");
-    errorMap.put("3002","没有识别到车牌");
+    errorMap.put("3001","车牌识别失败");
 
     errorMap.put("4001","该车辆已被绑定");
     errorMap.put("4002","暂无车主信息");

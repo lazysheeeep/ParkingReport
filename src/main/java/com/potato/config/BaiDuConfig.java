@@ -1,6 +1,7 @@
 package com.potato.config;
 
 import com.baidu.aip.ocr.AipOcr;
+import com.potato.common.exception.CustomException;
 import org.json.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -24,14 +25,20 @@ public class BaiDuConfig {
 
     JSONObject res = client.plateLicense(path, options);
 
-    String color = res.getJSONArray("words_result").getJSONObject(0).getString("color");
-    String number = res.getJSONArray("words_result").getJSONObject(0).getString("number");
+    if (res.has("words_result")) {
+      String color = res.getJSONArray("words_result").getJSONObject(0).getString("color");
+      String number = res.getJSONArray("words_result").getJSONObject(0).getString("number");
 
-    String[] result = new String[2];
-    result[0] = color;
-    result[1] = number;
+      String[] result = new String[2];
+      result[0] = color;
+      result[1] = number;
 
-    return result;
+      return result;
+    } else {
+
+      throw new CustomException(("车牌识别失败！"));
+    }
+
   }
 
 }

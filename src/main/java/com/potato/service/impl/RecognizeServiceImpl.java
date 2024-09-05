@@ -61,18 +61,12 @@ public class RecognizeServiceImpl implements RecognizeService {
       result[1] = temp[1];
       result[2] = "http://localhost:8080/" + staticPath;
 
-      if (result[0] == null || result[1] == null) {
-        errorCode = "3002";
-        errorMessage = errorCodeMap.getErrorMessage(errorCode);
-        throw new CustomException(errorMessage);
-      }
-
       return result;
 
-    } catch (IOException e) {
+    } catch (Exception e) {
       errorCode = "3001";
       errorCodeMap.getErrorMessage(errorCode);
-      throw new RuntimeException(e);
+      throw new CustomException(e.getMessage());
     }
   }
 }
