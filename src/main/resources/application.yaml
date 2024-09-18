@@ -29,15 +29,15 @@ spring:
       file-size-threshold: 5MB
 
 sms:
-  sdkAppId: 1400848864
-  signName: "土豆雷的公众号"
-  templateId : 1903093
-  secretId: AKIDwhEXdXDgz9XifOwGSSEnDQOAj5D9wgda
-  secretKey: ysfGhw2RlvupcDi0a1GJBrMe1OgnjXCj
+  sdkAppId: 
+  signName: 
+  templateId : 
+  secretId: 
+  secretKey: 
 
 
 casbin:
-  model-path: C:\Users\lenovo\Desktop\code\Java\demo\src\main\java\com\potato\config\authz_model.conf
+  model-path: 
 
 mybatis-plus:
   configuration:
