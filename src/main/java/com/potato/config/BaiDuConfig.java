@@ -19,9 +19,9 @@ import java.util.List;
 public class BaiDuConfig {
 
   //这个为什么放这里不放yaml呢因为他总说我传入的key是空
-  public static final String APP_ID = "112098015";
-  public static final String API_KEY = "y20mrH8SVahwfvGOLU22jPSo";
-  public static final String SECRET_KEY = "l4CQUdbSbTjKZsDm8QrtGGbeKhEIa1Oe";
+  public static final String APP_ID = "";
+  public static final String API_KEY = "";
+  public static final String SECRET_KEY = "";
 
   private final ColorMap colorMap = new ColorMap();
 
